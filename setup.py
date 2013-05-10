@@ -9,7 +9,7 @@ LICENSE = "GPLv2"
 NAMESPACE_PACKAGES = ['ZenPacks', 'ZenPacks.NWN']
 PACKAGES = ['ZenPacks', 'ZenPacks.NWN', 'ZenPacks.NWN.WindowsDevModeler']
 INSTALL_REQUIRES = []
-COMPAT_ZENOSS_VERS = ">=4.1"
+COMPAT_ZENOSS_VERS = ">=4.2"
 PREV_ZENPACK_NAME = ""
 # STOP_REPLACEMENTS
 ################################
