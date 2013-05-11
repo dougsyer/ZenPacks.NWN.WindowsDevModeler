@@ -8,7 +8,7 @@ AUTHOR = "Doug Syer"
 LICENSE = "GPLv2"
 NAMESPACE_PACKAGES = ['ZenPacks', 'ZenPacks.NWN']
 PACKAGES = ['ZenPacks', 'ZenPacks.NWN', 'ZenPacks.NWN.WindowsDevModeler']
-INSTALL_REQUIRES = []
+INSTALL_REQUIRES = ['ZenPacks.zenoss.WindowsMonitor']
 COMPAT_ZENOSS_VERS = ">=4.2"
 PREV_ZENPACK_NAME = ""
 # STOP_REPLACEMENTS
