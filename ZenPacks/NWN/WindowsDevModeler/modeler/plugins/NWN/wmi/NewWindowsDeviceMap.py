@@ -10,7 +10,7 @@ from Products.ZenUtils.Utils import prepId
 import re
 
 
-class WindowsDeviceMap(WMIPlugin):
+class NewWindowsDeviceMap(WMIPlugin):
 
     maptype = "WindowsDeviceMap"
 
@@ -74,18 +74,3 @@ class WindowsDeviceMap(WMIPlugin):
             break
 
         return om
-
-
-Value   Meaning
-0 (0x0)
-Standalone Workstation
-1 (0x1)
-Member Workstation
-2 (0x2)
-Standalone Server
-3 (0x3)
-Member Server
-4 (0x4)
-Backup Domain Controller
-5 (0x5)
-Primary Domain Controller
