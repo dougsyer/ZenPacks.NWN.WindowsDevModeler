@@ -13,8 +13,7 @@ Features
 - Vmware guests should model as VmwareVirtualPlatorm, HyperV and Citrix/Xen guests should also work
 - Added Windows Domain name to SNMP-location field
 - Adds Server role to the SNMP Description field (domain controller, workstation, if its a pdc emulator)
-
-This isnt ready yet, just transferring the code over now
+- for this rev I didnt bother updating the js for the new fields ie domain and role
 
 
 Use
@@ -27,7 +26,7 @@ This is a WMI based plugin so you will need windows user/domain/password as with
 
 Requirements
 =============================
-This Zenpack was tested in Zenoss Entperise 4.23, I would imagine it would work fine in core also.  It wont work in 4.1.1 without modfication to the WMI import statement in the modeller
+This Zenpack was tested in Zenoss Entperise 4.23, I would imagine it would work fine in core also.  It wont work in 4.1.1 enterprise without modfication to the WMI import statement in the modeler.
 
 Ive tested this on Windows 2008/R2 & 2003, all bets are off for older versions, havent tried 2012 yet
 
