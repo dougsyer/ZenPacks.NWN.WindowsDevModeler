@@ -40,7 +40,7 @@ class NewWindowsDeviceMap(WMIPlugin):
                 os.manufacturer = "Microsoft"
                 if '2003' in os.caption:
                     os.OSArchitecture = ""
-                osfields = (os.caption, os.OSArchitecture, os.CSDVersion)
+                osfields = filter(None, [os.caption, os.OSArchitecture, os.CSDVersion])
                 msfullos = " ".join(map(str.strip, osfields))
             om.setOSProductKey = MultiArgs(msfullos, os.manufacturer)
             om.snmpSysName = os.csname
@@ -53,9 +53,7 @@ class NewWindowsDeviceMap(WMIPlugin):
             break
 
         for f in results["Win32_ComputerSystem"]:
-            model = f.model
-            if not model:
-                model = "Unknown"
+            model = "Unknown" if not f.model else f.model
             manufacturer = f.manufacturer
             if not manufacturer:
                 manufacturer = "Unknown"
@@ -64,13 +62,9 @@ class NewWindowsDeviceMap(WMIPlugin):
             elif re.search(r'Dell', manufacturer):
                 manufacturer = "Dell"
             om.setHWProductKey = MultiArgs(model, manufacturer)
-            if f.Domain:
-                domain = f.Domain
-            else:
-                domain = "no domain"
+            f.Domain = "no domain" if not f.Domain else f.Domain
             om.snmpLocation = "Windows Domain: " + f.Domain
             om.snmpDescr = "Server Role:  " + domainrolemap.get(int(f.domainRole), 6)
-
             break
 
         return om
