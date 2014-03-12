@@ -1,16 +1,20 @@
+###########################################################################
+#
+# Copyright 2008, 2009 Zenoss, Inc. All Rights Reserved.
+#
+###########################################################################
+
 __doc__="""WindowsDeviceMap
 
 Uses WMI to map Windows OS & hardware information
 
 """
-
 from ZenPacks.zenoss.WindowsMonitor.WMIPlugin import WMIPlugin
 from Products.DataCollector.plugins.DataMaps import MultiArgs
 from Products.ZenUtils.Utils import prepId
 import re
 
-
-class NewWindowsDeviceMap(WMIPlugin):
+class WindowsDeviceMap(WMIPlugin):
 
     maptype = "WindowsDeviceMap"
 
@@ -38,13 +42,22 @@ class NewWindowsDeviceMap(WMIPlugin):
         for os in results["Win32_OperatingSystem"]:
             if re.search(r'Microsoft', os.manufacturer, re.I):
                 os.manufacturer = "Microsoft"
-                if '2003' in os.caption:
-                    os.OSArchitecture = ""
-                osfields = filter(None, [os.caption, os.OSArchitecture, os.CSDVersion])
+
+                # sometimes 32 bit 64 bit stuff is blank, if so handle it
+                if not hasattr(os, 'OSArchitecture'):
+                    arch = None
+                elif not os.OSArchitecture.strip():
+                    arch = None
+                else:
+                    arch = os.OSArchitecture
+
+                # remote annoying (R) stuff in caption
+                caption = os.caption.replace('(R)', '')
+                osfields = filter(None, [caption, arch, os.CSDVersion])
                 msfullos = " ".join(map(str.strip, osfields))
             om.setOSProductKey = MultiArgs(msfullos, os.manufacturer)
-            om.snmpSysName = os.csname
-            om.snmpContact = os.registereduser
+            om.snmpSysName = os.csname # lies!
+            om.snmpContact = os.registereduser # more lies!
             break
 
         for e in results["Win32_SystemEnclosure"]:
@@ -64,7 +77,7 @@ class NewWindowsDeviceMap(WMIPlugin):
             om.setHWProductKey = MultiArgs(model, manufacturer)
             f.Domain = "no domain" if not f.Domain else f.Domain
             om.snmpLocation = "Windows Domain: " + f.Domain
-            om.snmpDescr = "Server Role:  " + domainrolemap.get(int(f.domainRole), 6)
+            om.snmpDescr = "Server Role:  " + self.domainrolemap.get(int(f.domainRole), 6)
             break
 
         return om
