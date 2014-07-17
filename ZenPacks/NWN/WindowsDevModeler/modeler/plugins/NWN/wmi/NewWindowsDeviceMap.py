@@ -54,7 +54,8 @@ class WindowsDeviceMap(WMIPlugin):
                 # remote annoying (R) stuff in caption
                 caption = os.caption.replace('(R)', '')
                 osfields = filter(None, [caption, arch, os.CSDVersion])
-                msfullos = " ".join(map(str.strip, osfields))
+                msfullos = self.prepId(" ".join(map(str.strip, osfields)))
+                msfullos = msfullos.replace('__', ' ')  # remove non askii characters
             om.setOSProductKey = MultiArgs(msfullos, os.manufacturer)
             om.snmpSysName = os.csname # lies!
             om.snmpContact = os.registereduser # more lies!
